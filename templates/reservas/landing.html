@@ -1,0 +1,143 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Biondo Barbería - Tu Barbería de Confianza{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero-section d-flex align-items-center" style="min-height: 100vh; padding-top: 80px;">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6 mb-5 mb-lg-0">
+                <span class="text-uppercase gold-text fw-semibold letter-spacing-2"
+                    style="letter-spacing: 3px; font-size: 0.85rem;">
+                    Bienvenido a Biondo Barbería
+                </span>
+                <h1 class="display-3 fw-bold mt-3 mb-4">
+                    Donde el <span class="gold-text">Estilo</span> se Encuentra con la <span
+                        class="gold-text">Tradición</span>
+                </h1>
+                <p class="lead text-muted mb-4">
+                    Más que un corte, una experiencia. Nuestros barberos expertos transforman tu look con precisión y
+                    dedicación.
+                </p>
+                <div class="d-flex gap-3 flex-wrap">
+                    <a href="{% url 'reservas:reservar' %}" class="btn btn-primary btn-lg">
+                        <i class="bi bi-calendar-check me-2"></i>Reservar Turno
+                    </a>
+                    <a href="#servicios" class="btn btn-outline-gold btn-lg">
+                        Ver Servicios
+                    </a>
+                </div>
+            </div>
+            <div class="col-lg-6 text-center">
+                <div class="position-relative">
+                    <img src="{% static 'images/hero-biondo.png' %}" alt="Biondo Barbería" 
+                        class="img-fluid rounded-4 shadow-lg" 
+                        style="border: 3px solid var(--primary-gold); max-height: 400px; object-fit: cover;">
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Servicios Section -->
+<section id="servicios" class="py-5" style="background: var(--darker-bg);">
+    <div class="container py-5">
+        <div class="text-center mb-5">
+            <span class="text-uppercase gold-text fw-semibold" style="letter-spacing: 3px; font-size: 0.85rem;">
+                Nuestros Servicios
+            </span>
+            <h2 class="display-5 fw-bold mt-2">Lo Que Ofrecemos</h2>
+        </div>
+
+        <div class="row g-4">
+            {% for servicio in servicios %}
+            <div class="col-md-6 col-lg-4">
+                <div class="card h-100 p-4">
+                    <div class="card-body text-center">
+                        {% if servicio.es_premium %}
+                        <span class="badge bg-warning text-dark mb-3">
+                            <i class="bi bi-star-fill me-1"></i>Premium
+                        </span>
+                        {% endif %}
+                        <div class="mb-3">
+                            <i class="bi bi-scissors" style="font-size: 3rem; color: var(--primary-gold);"></i>
+                        </div>
+                        <h4 class="card-title mb-3">{{ servicio.nombre }}</h4>
+                        <p class="text-muted mb-3">
+                            <i class="bi bi-clock me-1"></i>{{ servicio.duracion_minutos }} minutos
+                        </p>
+                        <h3 class="gold-text mb-4">${{ servicio.precio }}</h3>
+                        <a href="{% url 'reservas:reservar' %}?servicio={{ servicio.id }}"
+                            class="btn btn-outline-gold w-100">
+                            Reservar
+                        </a>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <div class="col-12">
+                <p class="text-center text-muted">No hay servicios disponibles en este momento.</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- Barberos Section -->
+<section id="barberos" class="py-5">
+    <div class="container py-5">
+        <div class="text-center mb-5">
+            <span class="text-uppercase gold-text fw-semibold" style="letter-spacing: 3px; font-size: 0.85rem;">
+                Nuestro Equipo
+            </span>
+            <h2 class="display-5 fw-bold mt-2">Conoce a Nuestros Barberos</h2>
+        </div>
+
+        <div class="row g-4 justify-content-center">
+            {% for barbero in barberos %}
+            <div class="col-md-6 col-lg-4">
+                <div class="card h-100 text-center p-4">
+                    <div class="card-body">
+                        <div class="mb-4">
+                            {% if barbero.foto %}
+                            <img src="{{ barbero.foto.url }}" alt="{{ barbero.nombre }}" class="rounded-circle"
+                                style="width: 150px; height: 150px; object-fit: cover; border: 3px solid var(--primary-gold);">
+                            {% else %}
+                            <div class="rounded-circle mx-auto d-flex align-items-center justify-content-center"
+                                style="width: 150px; height: 150px; background: rgba(196, 163, 90, 0.2); border: 3px solid var(--primary-gold);">
+                                <i class="bi bi-person" style="font-size: 4rem; color: var(--primary-gold);"></i>
+                            </div>
+                            {% endif %}
+                        </div>
+                        <h4 class="card-title mb-2">{{ barbero.nombre }}</h4>
+                        {% if barbero.especialidad %}
+                        <p class="gold-text mb-3">{{ barbero.especialidad }}</p>
+                        {% endif %}
+                        <a href="{% url 'reservas:reservar' %}?barbero={{ barbero.id }}" class="btn btn-primary">
+                            <i class="bi bi-calendar-plus me-2"></i>Reservar con {{ barbero.nombre|truncatewords:1 }}
+                        </a>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <div class="col-12">
+                <p class="text-center text-muted">No hay barberos disponibles en este momento.</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section class="py-5" style="background: linear-gradient(135deg, rgba(196, 163, 90, 0.1), rgba(196, 163, 90, 0.05));">
+    <div class="container py-5 text-center">
+        <h2 class="display-5 fw-bold mb-4">¿Listo para un Nuevo Look?</h2>
+        <p class="lead text-muted mb-4">Reserva tu turno ahora y experimenta la diferencia</p>
+        <a href="{% url 'reservas:reservar' %}" class="btn btn-primary btn-lg px-5">
+            <i class="bi bi-calendar-check me-2"></i>Reservar Ahora
+        </a>
+    </div>
+</section>
+{% endblock %}

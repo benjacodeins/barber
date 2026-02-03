@@ -1,0 +1,63 @@
+<tr id="turno-{{ turno.id }}">
+    <td>
+        <strong>{{ turno.fecha_hora_inicio|date:"d/m/Y" }}</strong><br>
+        <small class="text-muted">{{ turno.fecha_hora_inicio|time:"H:i" }} - {{ turno.fecha_hora_fin|time:"H:i" }}</small>
+    </td>
+    <td>{{ turno.nombre_cliente }}</td>
+    <td>
+        <a href="https://wa.me/{{ turno.whatsapp_cliente|cut:'+' }}" target="_blank" class="text-decoration-none gold-text">
+            <i class="bi bi-whatsapp me-1"></i>{{ turno.whatsapp_cliente }}
+        </a>
+    </td>
+    <td>{{ turno.barbero.nombre }}</td>
+    <td>
+        {{ turno.servicio.nombre }}<br>
+        <small class="gold-text">${{ turno.servicio.precio }}</small>
+    </td>
+    <td>
+        {% if turno.estado == 'pendiente' %}
+        <span class="badge bg-warning text-dark">Pendiente</span>
+        {% elif turno.estado == 'confirmado' %}
+        <span class="badge bg-success">Confirmado</span>
+        {% else %}
+        <span class="badge bg-danger">Cancelado</span>
+        {% endif %}
+    </td>
+    <td class="text-center">
+        {% if turno.estado == 'pendiente' %}
+        <form method="post" action="{% url 'reservas:cambiar_estado' turno.id %}" class="d-inline"
+            hx-post="{% url 'reservas:cambiar_estado' turno.id %}"
+            hx-target="#turno-{{ turno.id }}"
+            hx-swap="outerHTML">
+            {% csrf_token %}
+            <input type="hidden" name="estado" value="confirmado">
+            <button type="submit" class="btn btn-success btn-sm" title="Confirmar">
+                <i class="bi bi-check-lg"></i>
+            </button>
+        </form>
+        <form method="post" action="{% url 'reservas:cambiar_estado' turno.id %}" class="d-inline"
+            hx-post="{% url 'reservas:cambiar_estado' turno.id %}"
+            hx-target="#turno-{{ turno.id }}"
+            hx-swap="outerHTML">
+            {% csrf_token %}
+            <input type="hidden" name="estado" value="cancelado">
+            <button type="submit" class="btn btn-danger btn-sm" title="Rechazar">
+                <i class="bi bi-x-lg"></i>
+            </button>
+        </form>
+        {% elif turno.estado == 'confirmado' %}
+        <form method="post" action="{% url 'reservas:cambiar_estado' turno.id %}" class="d-inline"
+            hx-post="{% url 'reservas:cambiar_estado' turno.id %}"
+            hx-target="#turno-{{ turno.id }}"
+            hx-swap="outerHTML">
+            {% csrf_token %}
+            <input type="hidden" name="estado" value="cancelado">
+            <button type="submit" class="btn btn-outline-danger btn-sm" title="Cancelar">
+                <i class="bi bi-x-lg"></i>
+            </button>
+        </form>
+        {% else %}
+        <span class="text-muted small">Sin acciones</span>
+        {% endif %}
+    </td>
+</tr>

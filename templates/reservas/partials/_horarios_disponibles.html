@@ -1,0 +1,16 @@
+<!-- Partial template: Grilla de horarios disponibles -->
+<!-- Se carga vía HTMX cuando el usuario selecciona barbero, servicio y fecha -->
+
+<div class="d-flex flex-wrap gap-2 justify-content-center">
+    {% for slot in slots %}
+    <button type="button" class="slot-btn"
+        onclick="seleccionarHorario('{{ slot.inicio|date:'Y-m-d' }}T{{ slot.inicio|time:'H:i' }}', '{{ slot.hora_display }}')">
+        <i class="bi bi-clock me-1"></i>{{ slot.hora_display }}
+    </button>
+    {% endfor %}
+</div>
+
+<p class="text-muted text-center mt-3 small">
+    <i class="bi bi-info-circle me-1"></i>
+    Mostrando {{ slots|length }} horarios disponibles para el {{ fecha|date:"d/m/Y" }} con {{ barbero.nombre }}
+</p>

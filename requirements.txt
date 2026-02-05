@@ -1,3 +1,14 @@
-Django>=5.0
-Pillow
-mysqlclient
+# Django Framework
+Django>=5.0,<5.2
+
+# Manejo de imágenes
+Pillow>=10.0.0
+
+# Base de datos MySQL para PythonAnywhere
+mysqlclient>=2.2.0
+
+# Gestión de variables de entorno
+python-dotenv>=1.0.0
+
+# Servidor WSGI para producción (opcional, PythonAnywhere usa mod_wsgi)
+# gunicorn>=21.0.0

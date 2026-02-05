@@ -6,6 +6,10 @@ Optimizado para desarrollo local y deploy en PythonAnywhere.
 from pathlib import Path
 import os
 
+# Cargar variables de entorno desde archivo .env
+from dotenv import load_dotenv
+load_dotenv()
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 

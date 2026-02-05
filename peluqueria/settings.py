@@ -72,8 +72,12 @@ WSGI_APPLICATION = 'peluqueria.wsgi.application'
 
 
 # Database
-# SQLite para desarrollo, MySQL para producción en PythonAnywhere
-if DEBUG:
+# SQLite para desarrollo y también para producción si no hay MySQL configurado
+# MySQL opcional para cuentas de pago de PythonAnywhere
+db_name = os.environ.get('DB_NAME', '')
+
+if DEBUG or not db_name:
+    # Usar SQLite si estamos en desarrollo O si no hay MySQL configurado
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',
@@ -81,11 +85,11 @@ if DEBUG:
         }
     }
 else:
-    # Configuración para MySQL en PythonAnywhere
+    # Configuración para MySQL en PythonAnywhere (solo cuentas de pago)
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.mysql',
-            'NAME': os.environ.get('DB_NAME', ''),
+            'NAME': db_name,
             'USER': os.environ.get('DB_USER', ''),
             'PASSWORD': os.environ.get('DB_PASSWORD', ''),
             'HOST': os.environ.get('DB_HOST', ''),

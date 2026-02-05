@@ -10,6 +10,8 @@ Esta guía te llevará paso a paso para desplegar tu aplicación Django de gesti
 - Código del proyecto subido a PythonAnywhere (vía Git o upload directo)
 - Python 3.10 o superior disponible en PythonAnywhere
 
+> ℹ️ **Nota sobre Base de Datos**: Este proyecto funciona perfectamente con **SQLite** (incluido en cuentas gratuitas). MySQL solo es necesario si tienes una cuenta de pago y necesitas más funcionalidades de base de datos.
+
 ---
 
 ## 🔧 Paso 1: Preparar el Proyecto en PythonAnywhere
@@ -41,9 +43,14 @@ cd barber
 
 ---
 
-## 🗄️ Paso 2: Configurar la Base de Datos MySQL
+## 🗄️ Paso 2: Base de Datos (Opcional - Solo para Cuentas de Pago)
 
-### 2.1 Crear la Base de Datos
+> ⚠️ **IMPORTANTE para Cuentas Gratuitas**: Si tienes una cuenta gratuita de PythonAnywhere, **SALTA este paso completo**. El proyecto usará SQLite automáticamente y funciona perfectamente para demos.
+
+<details>
+<summary><b>👉 Click aquí solo si tienes cuenta de PAGO y quieres usar MySQL</b></summary>
+
+### 2.1 Crear la Base de Datos MySQL
 
 1. Ve a la pestaña **"Databases"** en PythonAnywhere
 2. En la sección **"MySQL"**, configura tu contraseña si aún no lo has hecho
@@ -59,6 +66,8 @@ Toma nota de:
 - **Usuario**: Tu nombre de usuario de PythonAnywhere
 - **Contraseña**: La que configuraste
 - **Host**: `tuusuario.mysql.pythonanywhere-services.com`
+
+</details>
 
 ---
 
@@ -76,8 +85,9 @@ nano .env
 
 ### 3.2 Editar las Variables
 
-Modifica el archivo `.env` con tus datos reales:
+Modifica el archivo `.env` con tus datos reales.
 
+**Para Cuenta GRATUITA (con SQLite):**
 ```bash
 # Generar una SECRET_KEY segura
 DJANGO_SECRET_KEY=genera-una-clave-secreta-aqui
@@ -86,7 +96,16 @@ DJANGO_DEBUG=False
 # Reemplaza "tuusuario" con tu nombre de usuario de PythonAnywhere
 ALLOWED_HOSTS=tuusuario.pythonanywhere.com,localhost,127.0.0.1
 
-# Configuración de MySQL
+# No necesitas configurar nada más - usará SQLite automáticamente
+```
+
+**Para Cuenta de PAGO (con MySQL - opcional):**
+```bash
+DJANGO_SECRET_KEY=genera-una-clave-secreta-aqui
+DJANGO_DEBUG=False
+ALLOWED_HOSTS=tuusuario.pythonanywhere.com,localhost,127.0.0.1
+
+# Configuración de MySQL (descomentar y completar)
 DB_NAME=tuusuario$barber_demo
 DB_USER=tuusuario
 DB_PASSWORD=tu-password-mysql

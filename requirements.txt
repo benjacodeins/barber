@@ -4,8 +4,9 @@ Django>=5.0,<5.2
 # Manejo de imágenes
 Pillow>=10.0.0
 
-# Base de datos MySQL para PythonAnywhere
-mysqlclient>=2.2.0
+# Base de datos MySQL (OPCIONAL - solo para cuentas de pago de PythonAnywhere)
+# Descomentar si usarás MySQL en lugar de SQLite
+# mysqlclient>=2.2.0
 
 # Gestión de variables de entorno
 python-dotenv>=1.0.0
